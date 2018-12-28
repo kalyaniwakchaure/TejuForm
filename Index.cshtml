@@ -1,0 +1,162 @@
+@model form2.Models.formdata
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div>
+    <fieldset>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    @using (Html.BeginForm())
+                    {
+                    <form id="myForm" onsubmit="return false">
+                        <div class="form-group">
+                            @Html.Label("Name", new { @id = "lName" })
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @id = "name", @required = "required" })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Email", new { @id = "lEmail" })
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @id = "email", @required = "required" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Phone", new { @id = "lPhone" })
+                            @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", @id = "phone", @required = "required" })
+                            @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Address", new { @id = "lAddress" })
+                            @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @id = "add", @required = "required" })
+                            @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+                        </div>
+
+                        <button id="btnShowModal" type="submit"
+                                class="btn btn-success">
+                            Save
+                        </button>
+                        
+
+                        <button id="btnShowModa2" type="button"
+                                class="btn col-sm-offset-2 btn-success">
+                            Clear
+                        </button>
+                    </form>
+                    }
+                    <div class="modal fade" tabindex="-1" id="loginModal"
+                         data-keyboard="false" data-backdrop="static">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-body" id="lbll">
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" id="btnSuccessMsg" class="btn pull-left btn-success">Save</button>
+                                    <button type="button" id="btnHideModal" class="btn btn-success">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" tabindex="-1" id="loginModal2"
+                         data-keyboard="false" data-backdrop="static">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-body" id="lbll2">
+                                    <p>Successfully Done</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" id="btnOK" class="btn btn-success">
+                                        OK
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnShowModal").click(function (e) {
+            
+            var myForm = document.getElementsByTagName("form")[0];
+            var N = document.getElementById("name");
+            var E = document.getElementById("email");
+            var P = document.getElementById("phone");
+            var A = document.getElementById("add");
+
+            if (!N.checkValidity() || !E.checkValidity() || !P.checkValidity() || !A.checkValidity()) {
+                console.log("Any one input is invalid")
+                $("#loginModal").modal('hide');
+            }
+            else {
+                var z = document.createElement('p');
+                z.setAttribute("id", "t");
+                z.innerHTML = "Name : " + N.value + "<br/>" + "Email : " + E.value + "<br/>" + "Phone : " + P.value + "<br/>" + "Address : " + A.value + "<br/>";
+                document.getElementById("lbll").appendChild(z);
+           
+                $("#loginModal").modal('show');
+                e.preventDefault();
+            }
+           
+        });
+
+        $("#btnHideModal").click(function () {
+            $("#loginModal").modal('hide');
+        });
+
+        $("#btnShowModa2").click(function () {
+            document.getElementById("name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("phone").value = "";
+            document.getElementById("add").value = "";
+
+            var s = document.getElementById("t");
+            document.getElementById("lbll").removeChild(s);
+        });
+
+        $("#btnHideModal").click(function () {
+            document.getElementById("name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("phone").value = "";
+            document.getElementById("add").value = "";
+
+            var s = document.getElementById("t");
+            document.getElementById("lbll").removeChild(s);
+        });
+
+        $("#btnSuccessMsg").click(function () {
+            $("#loginModal").modal('hide');
+            $("#loginModal2").modal('show');
+        });
+
+        $("#btnOK").click(function () {
+            $("#loginModal").modal('hide');
+            $("#loginModal2").modal('hide');
+
+            document.getElementById("name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("phone").value = "";
+            document.getElementById("add").value = "";
+
+            var s = document.getElementById("t");
+            document.getElementById("lbll").removeChild(s);
+        });
+
+    });
+</script>  
